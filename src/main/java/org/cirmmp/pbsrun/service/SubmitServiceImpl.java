@@ -20,17 +20,17 @@ public class SubmitServiceImpl implements SubmitService {
     public String run(String dirrun)  throws Exception {
         List<String> stroout = new ArrayList<>();
         List<String> pbsrunin = new ArrayList<>();
-        String finaljobid = "";
-        Matcher found;
-        pbsrunin.add("");
-        pbsrunin.add("");
-        String pbsrunfile = "qsub";
-        Files.write(Paths.get(pbsrunfile), pbsrunin);
-        List<String> cmdexe = Arrays.asList("qsub", pbsrunfile);
-        ProcessBuilder processBuilder = new ProcessBuilder();
-        processBuilder.command(cmdexe);
         File dir = new File(dirrun);
         if (!dir.exists()) dir.mkdirs();
+        String finaljobid = "";
+        Matcher found;
+        pbsrunin.add("#!/bin/bash");
+        pbsrunin.add("PBS -k o");
+        String pbsrunfile = "sub";
+        Files.write(Paths.get(dirrun, pbsrunfile), pbsrunin);
+        List<String> cmdexe = Arrays.asList("/usr/bin/qsub", pbsrunfile);
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        processBuilder.command(cmdexe);
         processBuilder.directory(dir);
         int exitCode = 100;
         Pattern pattern = Pattern.compile("^[0-9]+.pbs-enmr.cerm.unifi.it");
