@@ -59,6 +59,8 @@ public class PbsrunApplication implements ApplicationRunner {
 
         String ret = getSubmitService().run("pippo");
         LOG.info(ret);
+        Jobs savejobs = new Jobs("pippo", ret);
+        jobsRepository.save(savejobs);
         Iterable<Jobs> jo = jobsRepository.findAll();
         jo.forEach(System.out::println);
     }
