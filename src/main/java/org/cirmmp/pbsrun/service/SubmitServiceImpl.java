@@ -26,9 +26,10 @@ public class SubmitServiceImpl implements SubmitService {
         Matcher found;
         pbsrunin.add("#!/bin/bash");
         pbsrunin.add("PBS -k o");
+        pbsrunin.add(" sleep 100");
         String pbsrunfile = "sub";
         Files.write(Paths.get(dirrun, pbsrunfile), pbsrunin);
-        List<String> cmdexe = Arrays.asList("/usr/bin/qsub", pbsrunfile);
+        List<String> cmdexe = Arrays.asList("/usr/bin/qsub", "-q", "cerm_short", pbsrunfile);
         ProcessBuilder processBuilder = new ProcessBuilder();
         processBuilder.command(cmdexe);
         processBuilder.directory(dir);
