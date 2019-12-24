@@ -29,5 +29,8 @@ build/
 
 ### VS Code ###
 .vscode/
+<<<<<<< HEAD
 .mvn
 mvn*
+=======
+>>>>>>> e45467743bb8a941db955ac09f8fe7409eebe1a8
