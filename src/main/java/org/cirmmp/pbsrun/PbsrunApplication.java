@@ -56,9 +56,11 @@ public class PbsrunApplication implements ApplicationRunner {
         LOG.info("## Option Value of --optionalArg1 : "+args.getOptionValues("optionalArg1"));
         LOG.info("## Option Value of --optionalArg2 : "+args.getOptionValues("optionalArg2"));
         getHelloService().hello();
+
+        String ret = getSubmitService().run("pippo");
+        LOG.info(ret);
         Iterable<Jobs> jo = jobsRepository.findAll();
         jo.forEach(System.out::println);
-        String ret = getSubmitService().run("pippo");
     }
 
 }
