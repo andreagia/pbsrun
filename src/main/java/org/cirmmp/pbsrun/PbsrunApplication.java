@@ -68,7 +68,7 @@ public class PbsrunApplication implements ApplicationRunner {
         jo.forEach(System.out::println);
         Jobs findj = jobsRepository.findByJobid(ret);
         System.out.println(findj.getDirectory());
-        checkjobService.check(findj.getDirectory(),findj.getJobid());
+        //checkjobService.check(findj.getDirectory(),findj.getJobid());
 
 
     }
