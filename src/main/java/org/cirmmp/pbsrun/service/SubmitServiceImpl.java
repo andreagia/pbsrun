@@ -27,6 +27,7 @@ public class SubmitServiceImpl implements SubmitService {
         pbsrunin.add("#!/bin/bash");
         pbsrunin.add("PBS -k o");
         pbsrunin.add(" sleep 100");
+        pbsrunin.add("echo \"JOBFINISHED-JOBS\"");
         String pbsrunfile = "sub";
         Files.write(Paths.get(dirrun, pbsrunfile), pbsrunin);
         List<String> cmdexe = Arrays.asList("/usr/bin/qsub", "-q", "cerm_short", pbsrunfile);

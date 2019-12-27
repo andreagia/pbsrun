@@ -31,10 +31,11 @@ public class PbsrunApplication implements ApplicationRunner {
     @Autowired
     JobsRepository jobsRepository;
 
-    @Bean
-    public SubmitService getSubmitService(){
-        return new SubmitServiceImpl();
-    }
+    @Autowired
+    SubmitService submitService;
+
+    @Autowired
+    CheckjobService checkjobService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -55,14 +56,21 @@ public class PbsrunApplication implements ApplicationRunner {
         Arrays.stream(sourceArgs).forEach(srcArgs ->LOG.info("## Source Args     : "+srcArgs));
         LOG.info("## Option Value of --optionalArg1 : "+args.getOptionValues("optionalArg1"));
         LOG.info("## Option Value of --optionalArg2 : "+args.getOptionValues("optionalArg2"));
+
         getHelloService().hello();
 
-        String ret = getSubmitService().run("pippo");
+        //switch ( )
+        String ret = submitService.run("pippo");
         LOG.info(ret);
         Jobs savejobs = new Jobs("pippo", ret);
         jobsRepository.save(savejobs);
         Iterable<Jobs> jo = jobsRepository.findAll();
         jo.forEach(System.out::println);
+        Jobs findj = jobsRepository.findByJobid(ret);
+        System.out.println(findj.getDirectory());
+        checkjobService.check(findj.getDirectory(),findj.getJobid());
+
+
     }
 
 }
