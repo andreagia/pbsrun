@@ -66,7 +66,7 @@ public class PbsrunApplication implements ApplicationRunner {
             LOG.info("TTTTTT "+String.join("",args.getOptionValues("status")));
             switch (status) {
                 case "submit":
-                    if (args.getOptionValues("dir") != null &&  args.getOptionValues("exec")!= null) {
+                    if (args.getOptionValues("dir") != null &&  args.getOptionValues("exec") != null) {
                         String dir = String.join("",args.getOptionValues("dir"));
                         String exec = String.join("",args.getOptionValues("exec"));
                         String ret = submitService.run(dir, exec);
@@ -77,6 +77,7 @@ public class PbsrunApplication implements ApplicationRunner {
                     }
 
                 case "check":
+                    LOG.info("PPPPPP "+String.join("",args.getOptionValues("status")));
                     if (args.getOptionValues("jobid") != null) {
                         Jobs findj = jobsRepository.findByJobid(args.getOptionValues("jobid").toString());
                         System.out.println(findj.getDirectory());
