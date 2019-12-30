@@ -73,9 +73,10 @@ public class PbsrunApplication implements ApplicationRunner {
                         Jobs savejobs = new Jobs(dir, ret);
                         jobsRepository.save(savejobs);
                     } else {
-                        System.out.println("please use --dir=Directory");
-                        break;
+                        System.out.println("please use --dir=Directory and --exec=executable");
+
                     }
+                    break;
                 case "check":
                     if (args.getOptionValues("jobid") != null) {
                         Jobs findj = jobsRepository.findByJobid(args.getOptionValues("jobid").toString());
@@ -84,8 +85,9 @@ public class PbsrunApplication implements ApplicationRunner {
                         System.out.println(statusc);
                     } else {
                         System.out.println("please use --jobid=jobid");
-                        break;
+
                     }
+                    break;
                 default:
                     System.out.println("please use --status=[submit or check]");
 
