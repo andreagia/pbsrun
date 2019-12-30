@@ -67,6 +67,7 @@ public class PbsrunApplication implements ApplicationRunner {
             switch (status) {
                 case "submit":
                     if (args.getOptionValues("dir") != null &&  args.getOptionValues("exec") != null) {
+                        LOG.info("XXXXXX "+String.join("",args.getOptionValues("dir")));
                         String dir = String.join("",args.getOptionValues("dir"));
                         String exec = String.join("",args.getOptionValues("exec"));
                         String ret = submitService.run(dir, exec);
