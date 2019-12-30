@@ -1,5 +1,8 @@
 package org.cirmmp.pbsrun.service;
 
+import org.cirmmp.pbsrun.PbsrunApplication;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -16,12 +19,15 @@ import java.util.regex.Pattern;
 @Service
 public class SubmitServiceImpl implements SubmitService {
 
+    Logger LOG = LoggerFactory.getLogger(SubmitServiceImpl.class);
+
     @Override
     public String run(String dirrun, String exec)  throws Exception {
         List<String> stroout = new ArrayList<>();
         List<String> pbsrunin = new ArrayList<>();
         File dir = new File(dirrun);
         File execf = new File(dirrun, exec);
+        LOG.info(dir.getAbsolutePath(),execf.getAbsolutePath());
         if (dir.exists() && execf.exists()) {
             String finaljobid = "";
             Matcher found;
