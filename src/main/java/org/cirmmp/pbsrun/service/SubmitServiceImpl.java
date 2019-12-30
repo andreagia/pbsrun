@@ -27,7 +27,7 @@ public class SubmitServiceImpl implements SubmitService {
         List<String> pbsrunin = new ArrayList<>();
         File dir = new File(dirrun);
         File execf = new File(dirrun, exec);
-        LOG.info(dir.getAbsolutePath(),execf.getAbsolutePath());
+        LOG.info(dirrun,execf,dir.getAbsolutePath(),execf.getAbsolutePath());
         if (dir.exists() && execf.exists()) {
             String finaljobid = "";
             Matcher found;
