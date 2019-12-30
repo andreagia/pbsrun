@@ -75,7 +75,7 @@ public class PbsrunApplication implements ApplicationRunner {
                     } else {
                         System.out.println("please use --dir=Directory and --exec=executable");
                     }
-
+                    break;
                 case "check":
                     LOG.info("PPPPPP "+String.join("",args.getOptionValues("status")));
                     if (args.getOptionValues("jobid") != null) {
@@ -86,6 +86,7 @@ public class PbsrunApplication implements ApplicationRunner {
                     } else {
                         System.out.println("please use --jobid=jobid");
                     }
+                    break;
 
                 default:
                     System.out.println("please use --status=[submit or check]");
