@@ -56,19 +56,51 @@ public class PbsrunApplication implements ApplicationRunner {
         Arrays.stream(sourceArgs).forEach(srcArgs ->LOG.info("## Source Args     : "+srcArgs));
         LOG.info("## Option Value of --optionalArg1 : "+args.getOptionValues("optionalArg1"));
         LOG.info("## Option Value of --optionalArg2 : "+args.getOptionValues("optionalArg2"));
+        LOG.info("## Option Value of --status : "+args.getOptionValues("status"));
 
         getHelloService().hello();
 
-        //switch ( )
-        String ret = submitService.run("pippo");
-        LOG.info(ret);
-        Jobs savejobs = new Jobs("pippo", ret);
-        jobsRepository.save(savejobs);
-        Iterable<Jobs> jo = jobsRepository.findAll();
-        jo.forEach(System.out::println);
-        Jobs findj = jobsRepository.findByJobid(ret);
-        System.out.println(findj.getDirectory());
-        //checkjobService.check(findj.getDirectory(),findj.getJobid());
+
+        if(args.getOptionValues("status") != null) {
+            String status = String.join("",args.getOptionValues("status"));
+            LOG.info("TTTTTT "+String.join("",args.getOptionValues("status")));
+            switch (status) {
+                case "submit":
+                    if (args.getOptionValues("dir") != null) {
+                        String dir = String.join("",args.getOptionValues("dir"));
+                        String ret = submitService.run(dir);
+                        Jobs savejobs = new Jobs("pippo", ret);
+                        jobsRepository.save(savejobs);
+                    } else {
+                        System.out.println("please use -dir=Directory");
+                        break;
+                    }
+                case "check":
+                    if (args.getOptionValues("jobid") != null) {
+                        Jobs findj = jobsRepository.findByJobid(args.getOptionValues("jobid").toString());
+                        System.out.println(findj.getDirectory());
+                        String statusc = checkjobService.check(findj.getDirectory(), findj.getJobid());
+                        System.out.println(statusc);
+                    } else {
+                        System.out.println("please use -jobid=jobid");
+                        break;
+                    }
+                default:
+                    System.out.println("please use --status=[submit or check]");
+
+            }
+        }else {
+            System.out.println("please use status");
+        }
+//        String ret = submitService.run("pippo");
+//        LOG.info(ret);
+//        Jobs savejobs = new Jobs("pippo", ret);
+//        jobsRepository.save(savejobs);
+//        Iterable<Jobs> jo = jobsRepository.findAll();
+//        jo.forEach(System.out::println);
+//        Jobs findj = jobsRepository.findByJobid(ret);
+//        System.out.println(findj.getDirectory());
+//        checkjobService.check(findj.getDirectory(),findj.getJobid());
 
 
     }
