@@ -66,13 +66,14 @@ public class PbsrunApplication implements ApplicationRunner {
             LOG.info("TTTTTT "+String.join("",args.getOptionValues("status")));
             switch (status) {
                 case "submit":
-                    if (args.getOptionValues("dir") != null) {
+                    if (args.getOptionValues("dir") != null &&  args.getOptionValues("exec")!= null) {
                         String dir = String.join("",args.getOptionValues("dir"));
-                        String ret = submitService.run(dir);
-                        Jobs savejobs = new Jobs("pippo", ret);
+                        String exec = String.join("",args.getOptionValues("exec"));
+                        String ret = submitService.run(dir, exec);
+                        Jobs savejobs = new Jobs(dir, ret);
                         jobsRepository.save(savejobs);
                     } else {
-                        System.out.println("please use -dir=Directory");
+                        System.out.println("please use --dir=Directory");
                         break;
                     }
                 case "check":
@@ -82,7 +83,7 @@ public class PbsrunApplication implements ApplicationRunner {
                         String statusc = checkjobService.check(findj.getDirectory(), findj.getJobid());
                         System.out.println(statusc);
                     } else {
-                        System.out.println("please use -jobid=jobid");
+                        System.out.println("please use --jobid=jobid");
                         break;
                     }
                 default:
