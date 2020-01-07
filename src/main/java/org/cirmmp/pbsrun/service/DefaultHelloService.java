@@ -4,6 +4,6 @@ public class DefaultHelloService implements HelloService {
 
     @Override
     public void hello() {
-        System.out.println("CIAO CIAO");
+        System.out.println("CIAO CIAO CIAO");
     }
 }

@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -51,28 +52,35 @@ public class SubmitServiceImpl implements SubmitService {
             BufferedReader errorreader =
                     new BufferedReader(new InputStreamReader(process.getErrorStream()));
             String line;
-            System.out.println("\nPartito 2 ---------> : ");
+           // System.out.println("\nPartito 2 ---------> : ");
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+                //System.out.println(line);
                 found = pattern.matcher(line);
                 if (found.find()) {
                     String[] spliout = pattern1.split(line);
+                    System.out.println("JobID = "+spliout[0]);
                     finaljobid = spliout[0];
                 }
             }
             String lineerror;
-            System.out.println("\nPartito ERROR ---------> : ");
+            //System.out.println("\nPartito ERROR ---------> : ");
+            List<String> errout = new ArrayList<>();
             while ((lineerror = errorreader.readLine()) != null) {
-                System.out.println(lineerror);
+                errout.add(lineerror);
+               // System.out.println(lineerror);
             }
             errorreader.close();
             reader.close();
-
+            errout.forEach(System.out::print);
             exitCode = process.waitFor();
-            System.out.println("Exited with error code : " + exitCode);
+            //System.out.println("Exited with error code : " + exitCode);
+            if (errout.size() > 0) return null;
             return finaljobid;
         } else {
-            return "error directory doesen't exist or exec not present";
+
+            LOG.info("error directory doesen't exist or exec not present");
+            System.out.println("error directory doesen't exist or exec not present");
+            return null;
         }
 
     }

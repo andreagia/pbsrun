@@ -40,12 +40,12 @@ public class PbsrunApplication implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-        Jobs u1 = new Jobs("pippo", "abcdef");
+        /*Jobs u1 = new Jobs("pippo", "abcdef");
         jobsRepository.save(u1);
         Jobs u2 = new Jobs("pluto", "abcde1234");
         jobsRepository.save(u2);
         Jobs u3 = new Jobs("pantalone", "ANFRR1234");
-        jobsRepository.save(u3);
+        jobsRepository.save(u3);*/
         LOG.info("EXECUTING : Run method of Application Runner");
         final List<String> nonOptionArgs = args.getNonOptionArgs();
         final String[] sourceArgs = args.getSourceArgs();
@@ -58,8 +58,7 @@ public class PbsrunApplication implements ApplicationRunner {
         LOG.info("## Option Value of --optionalArg2 : "+args.getOptionValues("optionalArg2"));
         LOG.info("## Option Value of --status : "+args.getOptionValues("status"));
 
-        getHelloService().hello();
-
+        //getHelloService().hello();
 
         if(args.getOptionValues("status") != null) {
             String status = String.join("",args.getOptionValues("status"));
@@ -71,19 +70,32 @@ public class PbsrunApplication implements ApplicationRunner {
                         String dir = String.join("",args.getOptionValues("dir"));
                         String exec = String.join("",args.getOptionValues("exec"));
                         String ret = submitService.run(dir, exec);
-                        Jobs savejobs = new Jobs(dir, ret);
-                        jobsRepository.save(savejobs);
+                        if (ret != null ){
+                            Jobs savejobs = new Jobs(dir, ret);
+                            jobsRepository.save(savejobs);
+                            LOG.info("YYYYYYY2222 "+ret + " " + dir);
+                        } else {
+                            System.out.print("Error non submission");
+                        }
                     } else {
                         System.out.println("please use --dir=Directory and --exec=executable");
                     }
                     break;
                 case "check":
-                    LOG.info("PPPPPP "+String.join("",args.getOptionValues("status")));
+                    LOG.info("PPPPPP "+String.join("",args.getOptionValues("status")) + " "+ args.getOptionValues("status").getClass());
                     if (args.getOptionValues("jobid") != null) {
-                        Jobs findj = jobsRepository.findByJobid(args.getOptionValues("jobid").toString());
-                        System.out.println(findj.getDirectory());
-                        String statusc = checkjobService.check(findj.getDirectory(), findj.getJobid());
-                        System.out.println(statusc);
+                        Iterable<Jobs> jo = jobsRepository.findAll();
+                        jo.forEach(System.out::println);
+                        String jobidin = String.join("",args.getOptionValues("jobid"));
+                        LOG.info("PPPPPP "+String.join("",args.getOptionValues("jobid")));
+                        Jobs findj = jobsRepository.findByJobid(jobidin);
+                        if(findj != null) {
+                            System.out.println(findj.getDirectory());
+                            String statusc = checkjobService.check(findj.getDirectory(), findj.getJobid());
+                            System.out.println(statusc);
+                        } else {
+                            System.out.println("job not found");
+                        }
                     } else {
                         System.out.println("please use --jobid=jobid");
                     }
