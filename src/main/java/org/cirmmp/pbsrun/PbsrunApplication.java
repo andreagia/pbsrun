@@ -84,12 +84,17 @@ public class PbsrunApplication implements ApplicationRunner {
                 case "check":
                     LOG.info("PPPPPP "+String.join("",args.getOptionValues("status")) + " "+ args.getOptionValues("status").getClass());
                     if (args.getOptionValues("jobid") != null) {
-                        Iterable<Jobs> jo = jobsRepository.findAll();
-                        jo.forEach(System.out::println);
+                        //Iterable<Jobs> jo = jobsRepository.findAll();
+                        //jo.forEach(System.out::println);
                         String jobidin = String.join("",args.getOptionValues("jobid"));
+                        String retrive = String.join("",args.getOptionValues("retrive"));
                         LOG.info("PPPPPP "+String.join("",args.getOptionValues("jobid")));
                         Jobs findj = jobsRepository.findByJobid(jobidin);
                         if(findj != null) {
+                            if(retrive.equals("yes")) {
+                                System.out.println(findj.getDirectory());
+                                break;
+                            }
                             System.out.println(findj.getDirectory());
                             String statusc = checkjobService.check(findj.getDirectory(), findj.getJobid());
                             System.out.println(statusc);

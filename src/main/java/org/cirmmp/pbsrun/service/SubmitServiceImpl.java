@@ -33,8 +33,8 @@ public class SubmitServiceImpl implements SubmitService {
             String finaljobid = "";
             Matcher found;
             pbsrunin.add("#!/bin/bash");
-            pbsrunin.add("PBS -k o");
-            pbsrunin.add(" sleep 100");
+            //pbsrunin.add("PBS -k o");
+            pbsrunin.add("cd ${PBS_O_WORKDIR}");
             pbsrunin.add("sh " + exec);
             pbsrunin.add("echo \"JOBFINISHED-JOBS\"");
             String pbsrunfile = "sub";

@@ -19,14 +19,15 @@ public class CheckjobServiceImpl implements CheckjobService {
     public String check(String dirrun, String jobid) throws Exception {
         File fcheck = new File(dirrun, "sub.o"+jobid);
         LOG.info(fcheck.getAbsolutePath());
+
         if (fcheck.exists()) {
             List<String> retlist = new ArrayList<>();
             Files.lines( fcheck.toPath()).map(String::trim).filter(
                     s -> s.startsWith("JOBFINISHED-JOBS")
             ).forEach(retlist::add);
 
-            if (retlist.size() > 0) return "Finishedd";
+            if (retlist.size() > 0) return "JobID="+jobid+" Status=Done";
         }
-        return null;
+        return "JobID="+jobid+ " Status=Running";
     }
 }
